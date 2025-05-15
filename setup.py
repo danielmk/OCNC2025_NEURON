@@ -7,18 +7,18 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='project',
-    version='0.0.1',
-    description='Template for Python based neuroscience research.',
+    name='ocncneuron',
+    version='0.1.0',
+    description='Code for the NEURON tutorial at OCNC',
     long_description=readme,
     author='Daniel Müller-Komorowska',
     author_email='danielmuellermsc@gmail.com',
-    url='https://github.com/danielmk/template',
+    url='https://github.com/danielmk/OCNC2025_NEURON',
     license=license,
-    packages=['project'],
+    packages=['ocncneuron'],
     install_requires=[
-          'sbi==0.24.0',
+          'neuron',
           'numpy',
           'pandas',
           'matplotlib',
-          'scipy',],)
+          'spyder',],)
