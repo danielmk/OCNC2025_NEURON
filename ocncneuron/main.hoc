@@ -1,0 +1,47 @@
+// original from Magee JC, Cook EP (2000) Somatic EPSP amplitude is independent of synapse location in hippocampal pyramidal neurons. Nat Neurosci 3:895-903
+// ModelDB Accession Nr. 7509
+// Adapted by Daniel Müller-Komorowska, Institute for Experimental Epileptolgoy and Cognition Research
+// main.hoc
+
+	
+	norm = 0
+	noNorm_gsyn = 760e-6
+
+	print "--------------"
+
+	xopen("ca1.nrn")
+	
+	for i = 0, nDend-1 {
+		d[i] {
+			cm = 0.1
+			insert pas
+			//g_pas = 1/10000
+			g_pas = 4/1000000
+			e_pas = -65
+			v = -65
+			finitialize(v)
+		}
+	}
+	
+	s {
+		cm = 0.1
+		insert pas
+		//g_pas = 1/10000
+		g_pas = 4/1000000
+		e_pas = -65
+		v = -65
+		finitialize(v)
+	}
+
+	forall Ra = 70
+	vRest = -65
+	tStop = 50
+	dt = .05
+	
+	s distance()
+	
+	
+	vTarget = .2
+	minGsyn = 600e-6
+	maxGsyn = 6000e-6
+	incGsyn = 20e-6
