@@ -1,4 +1,4 @@
-name: template
+name: ocncneuron
 channels:
   - conda-forge
   - defaults
