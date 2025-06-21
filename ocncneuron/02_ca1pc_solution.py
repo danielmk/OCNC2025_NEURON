@@ -51,10 +51,10 @@ vi = -75.0  # reversal potential of inhibition
 """SIMULATION PARAMETERS"""
 dt = 0.01  #  sampling interval 
 tstop = 2000+t_stim  # duration of the simulation
-clamp = 'seci'  # measurement paradigm: 'sece', 'seci', cc
+clamp = 'cc'  # measurement paradigm: 'sece', 'seci', cc
 # type of synaptic input:
 # 'distal', 'intermediate', 'proximal', 'somatic', 'mixed'
-inp = 'distal'
+inp = 'proximal'
 dlambda = 'on'  # dlambda doesn't seem to be doing anything even for distal
 dendrites = 'on'
 
@@ -215,7 +215,10 @@ elif clamp == 'seci':
     p.rs = vrs
     pi_rec = h.Vector()
     pi_rec.record(p._ref_i)
-
+elif clamp == 'cc':
+    soma.insert('hh')
+    v_rec = h.Vector()
+    v_rec.record(soma(0.5)._ref_v)
     
 # Setup additional voltage recordings in the dendrites
 h.distance(0,soma(0.5)) # Initialize Origin
@@ -252,10 +255,11 @@ while h.t < tstop:
 if clamp=='sece':
     pi_rec = np.array(pi_rec)
     pg = pi_rec/(vi-ve)
-    
-if clamp=='seci':
+elif clamp=='seci':
     pi_rec = np.array(pi_rec)
     pg = pi_rec/(ve-vi)
+elif clamp=='cc':
+    pg=np.nan
 
 hyperparams = dict([('seed', seed),
                     ('n_syne', n_syn_e),
@@ -283,10 +287,6 @@ result_dict = {'g': pg*1e-6,  # Convert microsiemens to siemens
                'total_gi': np.array(gi_recs).sum(axis=0)*1e-6,
                'estimated_g': pg*1e-6}
 
-plt.figure()
-plt.plot(result_dict['estimated_g'])
-plt.plot(result_dict['estimated_g'])
-plt.plot(result_dict['total_ge'])
-plt.plot(result_dict['total_gi'])
-plt.legend(["estimated", "actual ge", "actual gi"])
+v_rec_array = np.asarray(v_rec)
+plt.plot(v_rec_array)
 
