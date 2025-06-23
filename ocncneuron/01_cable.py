@@ -9,7 +9,7 @@ passive_cable = h.Section()
 
 passive_cable.L = 1000  # Length in um
 passive_cable.diam = 1  # Diameter in um
-passive_cable.Ra = 100  # 100 MOhm axial resistance
+passive_cable.Ra = 100  # 100 MOhm cm axial resistance
 passive_cable.insert(h.pas)
 passive_cable.nseg = 100
 
