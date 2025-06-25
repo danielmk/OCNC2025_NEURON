@@ -27,9 +27,12 @@ passive_iclamp = h.IClamp(passive_cable(0.0))
 active_iclamp = h.IClamp(active_cable(0.0))
 
 for ic in [passive_iclamp, active_iclamp]:
-    ic.delay = 10 * ms  # Inject after 200 ms
-    ic.dur = 0.1 * ms  # Inject for 10 ms
-    ic.amp = 1  # Inject 500 nA peak current
+    ic.delay = 10 * ms  # Inject after 10 ms
+    ic.dur = 0.1 * ms  # Inject for 0.1 ms
+    ic.amp = 1  # Inject 1 nA peak current
+
+# We can connect two cables
+passive_cable.connect(active_cable(1.0))
 
 # Measure the voltage at multiple places along each cable
 mloc = np.arange(0, 1.1, 0.2)
@@ -55,9 +58,13 @@ for idx, loc in enumerate(mloc):
     ax[1].plot(t, active_arrays[idx, :])
 
 ax[1].set_xlabel("Time (ms)")
+
+mloc_unitized = mloc * 1000
+
 for a in ax:
     a.set_ylabel("Voltage (mV)")
-    a.legend(mloc * 1000)
+
+    a.legend([f'{x:.1f}' for x in mloc_unitized])
 
 ax[0].set_title("Passive Cable")
 ax[1].set_title("Active Cable")

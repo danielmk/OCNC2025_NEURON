@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import time
 import os
 import sys
+import matplotlib.pyplot as pyplot
 
 magee_file = "main.hoc"
 h.load_file(magee_file) # Creates the cell
@@ -40,7 +41,7 @@ U_e = 0.2  # Utilization constant of synaptic efficacy
 ve = 0  # reversal potential of excitation
 
 n_syn_i = 50  # number of inhibitory synapses
-gsyn_i = gsyn_e*1.5  # maximum conductance of the inhibitory synapses
+gsyn_i = 3e-4*1.5  # maximum conductance of the inhibitory synapses
 tau_rise_i = 1.2  # Rise time of synaptic inhibitory conductance
 tau_decay_i = 100  # Decay time of synaptic inhibitory conductance
 tau_facil_i = 0  # Facilitation time constant of the tm process
@@ -123,15 +124,16 @@ elif inp=='mixed':
     inputs_i = np.random.choice(dist_idc_sorted, size=n_syn_i, replace=False)
 
 # Do some pretty shape plotting
-shape_plot1 = h.PlotShape()
+ps = h.PlotShape(False)
+ps.plot(pyplot)
 
 inputs_e_i = np.intersect1d(inputs_e,inputs_i)
 for x in inputs_e:
-    shape_plot1.color(4, sec=h.d[x])  # excitation green
+    ps.color(4, sec=h.d[x])  # excitation green
 for x in inputs_i:
-    shape_plot1.color(2, sec=h.d[x])  # inhibition red
+    ps.color(2, sec=h.d[x])  # inhibition red
 for x in inputs_e_i:
-    shape_plot1.color(8, sec=h.d[x])  # inhibition yellow
+    ps.color(8, sec=h.d[x])  # inhibition yellow
 
 # Create the excitatory synapses
 syns_e=[]
