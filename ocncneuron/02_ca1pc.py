@@ -52,7 +52,7 @@ vi = -75.0  # reversal potential of inhibition
 """SIMULATION PARAMETERS"""
 dt = 0.01  #  sampling interval 
 tstop = 2000+t_stim  # duration of the simulation
-clamp = 'seci'  # measurement paradigm: 'sece', 'seci', cc
+clamp = 'sece'  # measurement paradigm: 'sece', 'seci', 'cc'
 # type of synaptic input:
 # 'distal', 'intermediate', 'proximal', 'somatic', 'mixed'
 inp = 'distal'
@@ -238,14 +238,20 @@ h.t = -2000
 h.secondorder = 0
 h.dt = 10
 
+t = [0.0]
+
 while h.t < -100:
     h.fadvance()
+
 h.t=0
 h.dt=dt
 
 h.frecord_init()  # Necessary after changing t to restart the vectors
 while h.t < tstop:
     h.fadvance()
+    t.append(h.t)
+
+np.array(t)
 
 # Now we calculate the output
 # For voltage clamp the conductance is calculated from current and reversal
@@ -286,9 +292,8 @@ result_dict = {'g': pg*1e-6,  # Convert microsiemens to siemens
                'estimated_g': pg*1e-6}
 
 plt.figure()
-plt.plot(result_dict['estimated_g'])
-plt.plot(result_dict['estimated_g'])
-plt.plot(result_dict['total_ge'])
-plt.plot(result_dict['total_gi'])
+plt.plot(t, result_dict['estimated_g'])
+plt.plot(t, result_dict['total_ge'])
+plt.plot(t, result_dict['total_gi'])
 plt.legend(["estimated", "actual ge", "actual gi"])
 

@@ -78,14 +78,17 @@ h.finitialize(-65)  # Initialize voltage to -65 mV
 tstop = 100 * ms
 h.dt = 0.01
 
+t = [0.0]
+
 while h.t < tstop:
     h.fadvance()
+    t.append(h.t)
 
 plt.figure()
-plt.plot(voltage_start, color='k')
-plt.plot(control_voltage_start, color='r')
-plt.plot(voltage_end, color='k', linestyle='--')
-plt.plot(control_voltage_end, color='r', linestyle='--')
+plt.plot(t, voltage_start, color='k')
+plt.plot(t, control_voltage_start, color='r')
+plt.plot(t, voltage_end, color='k', linestyle='--')
+plt.plot(t, control_voltage_end, color='r', linestyle='--')
 plt.legend(["Sheath Start", "Control Start", "Sheath End", "Control End"])
 
 

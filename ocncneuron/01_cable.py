@@ -32,7 +32,7 @@ for ic in [passive_iclamp, active_iclamp]:
     ic.amp = 1  # Inject 1 nA peak current
 
 # We can connect two cables
-passive_cable.connect(active_cable(1.0))
+# passive_cable.connect(active_cable(1.0))
 
 # Measure the voltage at multiple places along each cable
 mloc = np.arange(0, 1.1, 0.2)
